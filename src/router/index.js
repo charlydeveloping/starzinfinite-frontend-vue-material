@@ -2,11 +2,25 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import HelloWorld from '../components/HelloWorld.vue'
+import Login from '../pages/auth/login.vue'
+
 import AdminLayout from '../layouts/admin.vue'
+import BlankLayout from '../layouts/blank.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/login',
+        name: 'login',
+        component: BlankLayout,
+        children: [
+            {
+                path: '',
+                component: Login
+            }
+        ] 
+    },
     {
         path: '/',
         name: 'home',
