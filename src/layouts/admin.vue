@@ -3,7 +3,7 @@
         app-bar
         navigation-drawer
         v-main
-            v-container(fluid)
+            v-container(fluid class="container" )
                 router-view
 
         v-footer(app)
@@ -20,3 +20,8 @@ export default {
     },
 }
 </script>
+<style scoped>
+.container {
+    background-color: #f2f2f2;
+}
+</style>

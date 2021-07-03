@@ -20,14 +20,14 @@ v-app
 									label="Name"
 								)
 								v-text-field(
-									v-model="user.email",
+									v-model="payload.usuario",
 									light,
 									prepend-icon="fas fa-at",
-									label="Email",
-									type="email"
+									label="Usuario",
+									type="text"
 								)
 								v-text-field(
-									v-model="user.password",
+									v-model="payload.password",
 									light,
 									prepend-icon="fas fa-lock",
 									label="Password",
@@ -48,22 +48,22 @@ v-app
 									type="submit"
 								) Sign in
 							v-row.mt-5(justify="center")
-								v-btn(fab flat icon)
+								v-btn(fab text icon)
 									v-icon mdi-facebook
-								v-btn(fab flat icon)
+								v-btn(fab text icon)
 									v-icon mdi-twitter
-								v-btn(fab flat icon)
+								v-btn(fab text icon)
 									v-icon mdi-youtube
 					
 </template>
 <script>
+import auth from '../../services/auth'
 export default {
   data() {
     return {
-      user: {
-        // email: 'admin@example.com',
-        // password: 'admin',
-        // name: 'John Doe',
+      payload: {
+        usuario: '',
+        contrasenia: ''
       },
       options: {
         isLoggingIn: true,
@@ -80,7 +80,7 @@ export default {
           console.log(response)
           localStorage.setItem('user', {})
           localStorage.setItem('access_token', token)
-          this.$router.push({ name: 'dashboard.home-1' })
+          this.$router.push({ name: 'home' })
   
         } catch (error) {
           console.error(error)
