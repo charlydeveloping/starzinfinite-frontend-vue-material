@@ -5,15 +5,35 @@ v-container
 		:items="breadcrumbs"
 		large
 	)
+
+	ui-dialog-confirm(
+		:dialog="dialog"
+		:title="'Confirmar eliminar'"
+		:text="'Está seguro que desea eliminar el sistema'"
+		@accept="destroy"
+		@cancel="dialog = false"
+	)
+
 	v-card
 		v-card-title
 			h3 Sistemas
 		v-card-text 
 
 			v-row.mr-1(justify="end")
-				v-btn(color="error" ) Elimina	r sistema
-				v-btn.ml-1(color="warning" ) Editar sistema
-				v-btn.ml-1(color="primary" ) Nuevo sistema
+				v-btn(
+          v-if="Object.keys(sistema).length > 0"
+					color="error" 
+					@click.stop="dialog = true"
+					) Eliminar sistema
+				v-btn.ml-1(
+          v-if="Object.keys(sistema).length > 0"
+					color="warning" 
+					@click="edit"
+					) Editar sistema
+				v-btn.ml-1(
+					color="primary" 
+					:to="{ name: 'sistema.store' }"
+					) Nuevo sistema
 		
 			JqxGrid.mt-5(
 				ref="gridSistemas",
@@ -50,6 +70,7 @@ export default {
         },
       ],
       sistema: {},
+			dialog: false,
       dataAdapter: new jqx.dataAdapter(this.source),
       grid: {
         columns: [
@@ -129,8 +150,7 @@ export default {
     edit() {
       let selected = this.$refs.gridSistemas.getselectedrowindex();
       let rowdata = this.$refs.gridSistemas.getrowdata(selected);
-      console.log(rowdata);
-      console.log(rowdata.idSistema);
+      
       this.$router.push({
         name: "sistema.update",
         params: { id: rowdata.idSistema },
@@ -147,10 +167,21 @@ export default {
 
       try {
         await sistemas.deleteSistema(rowdata.idSistema);
-        this.$bvModal.hide("modalDelete");
+        this.dialog = false;
         this.fetchSistemas();
+
+        this.$notify({
+          type: 'success',
+          title: 'Exito',
+          text: 'Sistema eliminado exitosamente'
+        })
       } catch (error) {
         console.error(error);
+        this.$notify({
+          type: 'error',
+          title: 'Error',
+          text: 'Lo sentimos ha ocurrido un error'
+        })
       }
     },
     /**

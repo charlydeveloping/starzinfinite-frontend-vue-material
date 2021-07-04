@@ -1,5 +1,5 @@
-// import Vue from 'vue'
+import Vue from 'vue'
 
-// import InputTextField from './input-text-field.vue'
+import InputTextField from './input-text-field.vue'
 
-// Vue.component('input-text-field', InputTextField)
+Vue.component('ui-input-text-field', InputTextField)

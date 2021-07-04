@@ -3,13 +3,18 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import router from './router'
 import store from './store'
-import './plugins/i18n'
+
+import { i18n } from './plugins/i18n'
+import './plugins/vee-validate'
+import './plugins/vue-notification'
 import './components'
 
 Vue.config.productionTip = false
 
+
 new Vue({
   vuetify,
+  i18n,
   router,
   store,
   render: h => h(App)
