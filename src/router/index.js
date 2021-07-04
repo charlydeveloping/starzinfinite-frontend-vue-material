@@ -30,6 +30,7 @@ const routes = [
         children: [
             {
                 path: '',
+                meta: { auth: true },
                 component: HelloWorld
             }
         ]
@@ -40,5 +41,20 @@ const router =  new VueRouter({
     routes,
     mode: 'history'
 })
+
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem("access_token");
+
+    if (to.meta.auth) {
+        if (token) {
+            next();    
+        } else {
+            next({ name: "login" });    
+        }
+    }
+
+    next()
+
+});
 
 export default router;

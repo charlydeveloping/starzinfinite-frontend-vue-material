@@ -19,8 +19,8 @@
                         v-list-item-subtitle: span(style="color:white" ) Broker
                 
         v-list
-            v-list-item(v-for='(item, index) in items' :key='index')
-                v-list-item-title {{ item.title }}
+            v-list-item(@click="logout")
+                v-list-item-title Salir
     
     
     
@@ -32,17 +32,19 @@ export default {
     data() {
         return {
             items: [
-                { title: 'Click Me' },
-                { title: 'Click Me' },
-                { title: 'Click Me' },
-                { title: 'Click Me 2' },
+                { title: 'Salir' },
             ],
         }
     },
      methods: {
         setDrawer () {
             this.$store.dispatch('setting/drawerAction')
-        }
+        },
+        logout () {
+            localStorage.removeItem('user')
+            localStorage.removeItem('access_token')
+            this.$router.push({ name: 'login' })
+            },
     }
 };
 </script>

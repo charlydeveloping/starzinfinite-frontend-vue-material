@@ -2,11 +2,16 @@
     v-app
         app-bar
         navigation-drawer
-        v-main
-            v-container(fluid class="container" )
+        v-main(class="container")
+            v-container(fluid  )
                 router-view
 
-        v-footer(app)
+        v-footer()
+            v-card-text(class="text-center" )
+                | {{ new Date().getFullYear() }} &mdash; 
+                strong Starz Infinite
+
+                
 
 </template>
 <script>
