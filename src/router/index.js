@@ -1,60 +1,52 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-import HelloWorld from '../components/HelloWorld.vue'
-import Login from '../pages/auth/login.vue'
+import Login from "../pages/auth/login.vue";
 
-import AdminLayout from '../layouts/admin.vue'
-import BlankLayout from '../layouts/blank.vue'
-import { sistema } from './sistema'
+import AdminLayout from "../layouts/admin.vue";
+import BlankLayout from "../layouts/blank.vue";
+import { sistema } from "./sistema";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
     {
-        path: '/login',
-        name: 'login',
+        path: "/auth",
+        name: "auth",
         component: BlankLayout,
         children: [
             {
-                path: '',
-                component: Login
-            }
-        ] 
+                path: "login",
+                name: "auth.login",
+                component: Login,
+            },
+        ],
     },
     ...sistema,
     {
-        path: '/',
-        name: 'home',
+        path: "/",
+        name: "home",
         component: AdminLayout,
-        children: [
-            {
-                path: '',
-                meta: { auth: true },
-                component: HelloWorld
-            }
-        ]
-    }
-]
+    },
+];
 
-const router =  new VueRouter({
+const router = new VueRouter({
     routes,
-    mode: 'history'
-})
+    mode: "history",
+});
 
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("access_token");
 
     if (to.meta.auth) {
         if (token) {
-            next();    
+            next();
         } else {
-            next({ name: "login" });    
+            next({ name: "login" });
         }
     }
 
-    next()
-
+    next();
 });
 
 export default router;

@@ -14,8 +14,7 @@ validation-provider(
     v-bind="$attrs",
     v-on="$listeners",
     v-bind:dense="dense",
-    v-bind:filled="true",
-    v-bind:rounded="true",
+    outlined
     v-bind:placeholder="name",
     v-bind:error-messages="errors",
     v-bind:clear-icon="clear_icon",
