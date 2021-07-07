@@ -49,6 +49,11 @@ export default {
               to: "sistema.list",
               icon: "fas fa-toolbox",
             },
+            {
+              name: "Usuarios",
+              to: "usuario.list",
+              icon: "fas fa-users",
+            },
           ],
         },
       ],

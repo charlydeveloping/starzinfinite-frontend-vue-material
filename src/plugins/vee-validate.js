@@ -40,6 +40,19 @@ extend('required', {
   ...required,
   message: (field, values) => `El campo ${field.toLowerCase()} es requerido`
 })
+extend('order_date_range', {
+  validate (value) {
+    const dates = value.split('~')
+    const dateInit = Date.parse(dates[0])
+    const dateEnd = Date.parse(dates[1])
+
+    if (dateInit > dateEnd) {
+      return false
+    }
+    return true
+  },
+  message: 'La fecha inicio no puede ser mayor a la fecha final'
+})
 extend('numeric', {
   ...numeric,
   message: (field, values) =>

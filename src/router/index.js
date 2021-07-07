@@ -6,6 +6,7 @@ import Login from "../pages/auth/login.vue";
 import AdminLayout from "../layouts/admin.vue";
 import BlankLayout from "../layouts/blank.vue";
 import { sistema } from "./sistema";
+import { usuario } from "./usuario";
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,7 @@ const routes = [
         ],
     },
     ...sistema,
+    ...usuario,
     {
         path: "/",
         name: "home",
