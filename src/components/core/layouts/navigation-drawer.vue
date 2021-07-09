@@ -54,6 +54,11 @@ export default {
               to: "usuario.list",
               icon: "fas fa-users",
             },
+            {
+              name: "Roles",
+              to: "rol.list",
+              icon: "fas fa-users",
+            },
           ],
         },
       ],

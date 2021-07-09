@@ -7,6 +7,7 @@ import AdminLayout from "../layouts/admin.vue";
 import BlankLayout from "../layouts/blank.vue";
 import { sistema } from "./sistema";
 import { usuario } from "./usuario";
+import { rol } from "./rol";
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,7 @@ const routes = [
     },
     ...sistema,
     ...usuario,
+    ...rol,
     {
         path: "/",
         name: "home",

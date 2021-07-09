@@ -4,20 +4,20 @@ v-container
   v-row
     v-col(md="6")
       v-card
-        v-card-title Editar sistema
+        v-card-title Editar rol
         v-card-text 
-          form-usuario(
+          form-rol(
             :payload="payload",
             :loading="loading.save",
             @save="save"
           )
 </template>
 <script>
-import FormUsuario from "./components/form.vue";
-import usuario from "../../services/usuarios";
+import FormRol from "./components/form.vue";
+import roles from "../../services/roles";
 export default {
   components: {
-    FormUsuario,
+    FormRol,
   },
   props: {
     id: {
@@ -34,12 +34,12 @@ export default {
           href: "breadcrumbs_dashboard",
         },
         {
-          text: "Usuarios",
+          text: "Roles",
           disabled: false,
           href: "breadcrumbs_link_2",
         },
         {
-          text: "Editar Usuario",
+          text: "Editar Rol",
           disabled: true,
           href: "breadcrumbs_link_2",
         },
@@ -53,19 +53,19 @@ export default {
   methods: {
     /**
      * save
-     * Guarda un nuevo registro del usuario
+     * Guarda un nuevo registro del rol
      * @return void
      */
     async save() {
       try {
-        await usuario.updateUsuario(this.id, this.payload);
+        await roles.updateRol(this.id, this.payload);
 
-        this.$router.push({ name: "usuario.list" });
+        this.$router.push({ name: "rol.list" });
 
         this.$notify({
           type: "success",
           title: "Exito",
-          text: "usuario guardado exitosamente",
+          text: "rol guardado exitosamente",
         });
       } catch (error) {
         console.error(error);
@@ -77,13 +77,13 @@ export default {
       }
     },
     /**
-     * fetchUsuario
-     * Obtiene el usuario basado en el id de la url
+     * fetchRol
+     * Obtiene el rol basado en el id de la url
      * @return void
      */
-    async fetchUsuario() {
+    async fetchRol() {
       try {
-        const response = await usuario.getUsuario(this.id);
+        const response = await roles.getRol(this.id);
         this.payload = response.data.data;
       } catch (error) {
         console.error(error);
@@ -96,7 +96,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchUsuario();
+    this.fetchRol();
   },
 };
 </script>
