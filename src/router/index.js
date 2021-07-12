@@ -30,6 +30,7 @@ const routes = [
     {
         path: "/",
         name: "home",
+        meta: { auth: true, name: 'Home' },
         component: AdminLayout,
     },
 ];
@@ -46,7 +47,7 @@ router.beforeEach((to, from, next) => {
         if (token) {
             next();
         } else {
-            next({ name: "login" });
+            next({ name: "auth.login" });
         }
     }
 

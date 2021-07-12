@@ -1,95 +1,106 @@
 <template lang="pug">
-v-app
-	v-content
-		v-container(fill-height)
-			v-layout(align-center, justify-center)
-				v-flex.login-form.text-xs-center 
-					.display-1.mb-3 
-					v-card.pa-3(light)
-						v-card-text
-							v-row(justify="center")
-								v-img.mt-5.mb-5( src="@/assets/logo.png" height="50" width="100"  )
-							v-row(justify="center")
-								h2.ma-3.mb-5 Sistema de Venta de Tickets
-							v-form
-								v-text-field(
-									v-if="!options.isLoggingIn",
-									v-model="user.name",
-									light,
-									prepend-icon="person",
-									label="Name"
-								)
-								v-text-field(
-									v-model="payload.usuario",
-									light,
-									prepend-icon="fas fa-at",
-									label="Usuario",
-									type="text"
-								)
-								v-text-field(
-									v-model="payload.password",
-									light,
-									prepend-icon="fas fa-lock",
-									label="Password",
-									type="password"
-								)
-								v-checkbox(
-									v-if="options.isLoggingIn",
-									v-model="options.shouldStayLoggedIn",
-									light,
-									label="Recordarme",
-									hide-details
-								)
-								v-btn.mt-5(
-									v-if="options.isLoggingIn",
-									@click.prevent="jwtLogin",
-									block,
-									color="primary" 
-									type="submit"
-								) Sign in
-							v-row.mt-5(justify="center")
-								v-btn(fab text icon)
-									v-icon mdi-facebook
-								v-btn(fab text icon)
-									v-icon mdi-twitter
-								v-btn(fab text icon)
-									v-icon mdi-youtube
-					
+		v-row(justify="center" align="center")
+				v-col(xl="3" lg="4" md="5" sm="6" xs="10" cols="10")
+						v-card.pa-4.elevation-8
+								//- Body
+								v-card-text
+										v-row
+												v-col.text-center(cols="12")
+														img(src="@/assets/logo.png" width="300" height="120")
+										v-card-title.grey--text.justify-center Starz Infinite
+										v-card-subtitle.text-center.mb-3 Sistema de Venta de Tickets 
+										validation-observer(v-slot="{ invalid }")
+												v-row
+														//- Usuario
+														v-col.py-0(cols="12")
+																validation-provider(
+																		name="Usuario"
+																		:rules="'required'"
+																		v-slot="{ errors }"
+																)
+																		v-text-field(
+																				v-model="payload.usuario"
+																				prepend-icon="fas fa-at"
+																				label="Usuario"
+																				:error-messages="errors"
+																				dense outlined
+																		)
+														//- Password
+														v-col.py-0(cols="12")
+																validation-provider(
+																		name="Password"
+																		:rules="'required'"
+																		v-slot="{ errors }"
+																)
+																		v-text-field(
+																				type="password"
+																				v-model="payload.password"
+																				prepend-icon="fas fa-key"
+																				label="Password"
+																				:error-messages="errors"
+																				dense outlined
+																		)
+								
+														//- Actions
+														v-col.py-0.text-center(cols="12")
+																v-btn(
+																		color="primary"
+																		:loading="loading"
+																		:disabled="invalid"
+																		@click.prevent="jwtLogin",
+																) Ingresar
+														v-row.mt-5(justify="center")
+															v-btn(fab text icon)
+																v-icon mdi-facebook
+															v-btn(fab text icon)
+																v-icon mdi-twitter
+															v-btn(fab text icon)
+																v-icon mdi-youtube
+												
+
+						//- Footer
+						v-footer(color="primary")
+								v-row
+										v-col.text-center(cols="12")
+												span(style="color:white; font-size: 80%") Desarrollado por CARG
 </template>
+
 <script>
 import auth from '../../services/auth'
 export default {
-  data() {
-    return {
-      payload: {
-        usuario: '',
-        contrasenia: ''
-      },
-      options: {
-        isLoggingIn: true,
-        shouldStayLoggedIn: true,
-      },
-    };
-  },
+	data() {
+		return {
+			loading: false,
+			payload: {
+				usuario: '',
+				contrasenia: ''
+			},
+			options: {
+				isLoggingIn: true,
+				shouldStayLoggedIn: true,
+			},
+		};
+	},
 	methods: {
 		async jwtLogin () {
-
-        try {
-          const response = await auth.login(this.payload)
-          const token = response.data.token
-          console.log(response)
-          localStorage.setItem('user', {})
-          localStorage.setItem('access_token', token)
-          this.$router.push({ name: 'home' })
-  
-        } catch (error) {
-          console.error(error)
-        }
-    },
+				try {
+					this.loading = true
+					const response = await auth.login(this.payload)
+					this.loading = false
+					const token = response.data.token
+					
+					localStorage.setItem('access_token', token)
+					this.$router.push({ name: 'home' })
+	
+				} catch (error) {
+					this.loading = false
+					console.error(error)
+				}
+		},
 	}
 };
 </script>
 <style lang="sass" scoped>
 .login-form
-  max-width: 500px
+	max-width: 500px
 </style>

@@ -34,7 +34,6 @@ export default {
       this.$store.dispatch("setting/drawerAction");
     },
     logout() {
-      localStorage.removeItem("user");
       localStorage.removeItem("access_token");
       this.$router.push({ name: "auth.login" });
     },
